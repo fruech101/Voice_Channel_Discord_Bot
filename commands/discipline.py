@@ -41,7 +41,7 @@ async def command( client, message, name ):
     pack_file( f, data ) 
     await send_message( message, "File Packed and written" )
     
-    evaluate( client, message, name )
+    await evaluate( client, message, name )
     await send_message( message, "Evaluation complete" )
 
 async def evaluate( client, message, name ):
