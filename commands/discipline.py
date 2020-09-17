@@ -20,29 +20,29 @@ ex: !discipline josh
 async def command( client, message, name ):
     await delete_message(message)
     
-    send_message( message, "Message Deleted" )
+    await send_message( message, "Message Deleted" )
     
     #Open the file, and unpack contents
     try:
         f = open( "discipline.txt", "r" )
     except:
         f = open( "discipline.txt", "x" )
-    send_message( message, "File Opened" )
+    await send_message( message, "File Opened" )
     data = unpack_file( f )
-    send_message( message, "File Unpacked" )
+    await send_message( message, "File Unpacked" )
 
     #Discipline the delinquent individual
     add_demerit( name, data )
-    send_message( message, "Demerit Added" )
+    await send_message( message, "Demerit Added" )
 
     #Re-pack the file contents, and write to the file
     f = open( "discipline.txt", "w" )
-    send_message( message, "File Opened for writing" )
+    await send_message( message, "File Opened for writing" )
     pack_file( f, data ) 
-    send_message( message, "File Packed and written" )
+    await send_message( message, "File Packed and written" )
     
     evaluate( client, message, name )
-    send_message( message, "Evaluation complete" )
+    await send_message( message, "Evaluation complete" )
 
 async def evaluate( client, message, name ):
     await delete_message(message)
@@ -55,7 +55,7 @@ async def evaluate( client, message, name ):
     i = locate_offender( name, data )
     report_card = create_report( name, data, i )
 
-    send_message( message, report_card )
+    await send_message( message, report_card )
     
 def add_demerit( name, data ):
     #Check for repeat offenders
