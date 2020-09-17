@@ -30,7 +30,9 @@ async def command( client, message, name ):
     data = unpack_file( f )
 
     #Discipline the delinquent individual
+    await send_message( message, "data before demerit: " + str(data) )
     add_demerit( name, data )
+    await send_message( message, "data after demerit: " + str(data) )
 
     #Re-pack the file contents, and write to the file
     f = open( "discipline.txt", "w" )
@@ -48,6 +50,9 @@ async def evaluate( client, message, name ):
     
     i = locate_offender( name, data )
     report_card = create_report( name, data, i )
+    
+    await send_message( message, "file line number: " + str(i) )
+    await send_message( message, "data length: " + str(len(data)) )
 
     await send_message( message, report_card )
     
@@ -57,17 +62,13 @@ def add_demerit( name, data ):
     
     if( i == -1 or i == len( data ) ):
         #Process new hooligans
-        await send_message( message, name + "'s first offense" )
         data[ i + 1 ] = { 'name':name.upper(), 'count':1 }
     else:
         #Process repeat offenders
-        await send_message( message, name + " found, giving additional demerit" )
         data[ i ][ 'count' ] += 1
 
 def create_report( name, data, i ):
     report = ""
-    await send_message( message, "file line number: " + str(i) )
-    await send_message( message, "data length: " + str(len(data)) )
     if( i == -1 or i == len( data ) ):
         report = name + " is squeaky clean."
     else:
@@ -110,8 +111,6 @@ def unpack_file( f ):
     encr_txt = f.read()
     file_txt = decrypt( 'QUADLINGS', encr_txt )
     
-    await send_message( message, "Text before discipline:\n" + file_txt )
-
     #Convert the raw text into a name value pair
     lines = file_txt.split( '\n' )
     for i in range( len( lines ) - 1 ):
@@ -129,8 +128,6 @@ def pack_file( f, data ):
         raw_text = raw_text + " "
         raw_text = raw_text + str( data[ i ][ 'count' ] )
         raw_text = raw_text + "\n"
-
-    await send_message( message, "Text after discipline:\n" + raw_text )
         
     #Encrypt the text, and write it to a file
     encr_txt = encrypt( 'QUADLINGS', raw_text )
