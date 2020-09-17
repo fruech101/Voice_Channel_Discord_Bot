@@ -1,8 +1,23 @@
-import discipline_defs as d
-
 from client_interactions import delete_message, send_message
 
-async def discipline( clinet, message, name ):
+DEMERIT_CNT         = 3
+CITATION_CNT        = 5
+VILOLATION_CNT      = 4
+VERB_WARNING_CNT    = 3
+WRITTEN_WARNING_CNT = 2
+
+"""
+Discipline command
+Severely punishes the non elect
+ex: !discipline josh
+@param client: The discord client, generally assumed to be the bot user itself
+@param message: The message the discord bot is responding to
+@param name: Individual being shamed
+@result: Deletes messages always
+@result: Punishes always
+@result: Gives report card always
+"""
+async def command( client, message, name ):
     await delete_message(message)
     
     #Open the file, and unpack contents
@@ -50,12 +65,12 @@ def create_report( name, data, i ):
         cnt = data[ i ][ 'count' ]
 
         #Calculate sinfulness
-        demerit_cnt = cnt % d.DEMERIT_CNT
-        citation_cnt = ( cnt // d.DEMERIT_CNT ) % d.CITATION_CNT
-        violation_cnt = ( cnt // ( d.DEMERIT_CNT * d.CITATION_CNT ) ) % d.VILOLATION_CNT
-        verb_warning_cnt = ( cnt // ( d.DEMERIT_CNT * d.CITATION_CNT * d.VILOLATION_CNT ) ) % d.VERB_WARNING_CNT
-        written_warning_cnt = ( cnt // ( d.DEMERIT_CNT * d.CITATION_CNT * d.VILOLATION_CNT * d.VERB_WARNING_CNT ) ) % d.WRITTEN_WARNING_CNT
-        disciplinary_review_cnt = cnt // ( d.DEMERIT_CNT * d.CITATION_CNT * d.VILOLATION_CNT * d.VERB_WARNING_CNT * d.WRITTEN_WARNING_CNT )
+        demerit_cnt = cnt % DEMERIT_CNT
+        citation_cnt = ( cnt // DEMERIT_CNT ) % CITATION_CNT
+        violation_cnt = ( cnt // ( DEMERIT_CNT * CITATION_CNT ) ) % VILOLATION_CNT
+        verb_warning_cnt = ( cnt // ( DEMERIT_CNT * CITATION_CNT * VILOLATION_CNT ) ) % VERB_WARNING_CNT
+        written_warning_cnt = ( cnt // ( DEMERIT_CNT * CITATION_CNT * VILOLATION_CNT * VERB_WARNING_CNT ) ) % WRITTEN_WARNING_CNT
+        disciplinary_review_cnt = cnt // ( DEMERIT_CNT * CITATION_CNT * VILOLATION_CNT * VERB_WARNING_CNT * WRITTEN_WARNING_CNT )
 
         #Create an exact report of how depraved you are
         report = "Demerits:" + str( demerit_cnt ) + "\n"
