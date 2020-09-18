@@ -23,20 +23,17 @@ async def command( client, message, name ):
     #Open the file, and unpack contents
     try:
         f = open( "discipline.txt", "r" )
-        await send_message( message, "File exists, opening" )
     except:
         f = open( "discipline.txt", "x" )
-        await send_message( message, "Error reading file, creating new file" )
     data = unpack_file( f )
 
     #Discipline the delinquent individual
-    await send_message( message, "data before demerit: " + str(data) )
     add_demerit( name, data )
-    await send_message( message, "data after demerit: " + str(data) )
 
     #Re-pack the file contents, and write to the file
     f = open( "discipline.txt", "w" )
     pack_file( f, data ) 
+    f.close()
     
     await evaluate( client, message, name )
 
@@ -51,9 +48,6 @@ async def evaluate( client, message, name ):
     i = locate_offender( name, data )
     report_card = create_report( name, data, i )
     
-    await send_message( message, "file line number: " + str(i) )
-    await send_message( message, "data length: " + str(len(data)) )
-
     await send_message( message, report_card )
     
 def add_demerit( name, data ):
