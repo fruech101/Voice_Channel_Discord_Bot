@@ -77,7 +77,8 @@ def create_report( name, data, i ):
         disciplinary_review_cnt = cnt // ( DEMERIT_CNT * CITATION_CNT * VILOLATION_CNT * VERB_WARNING_CNT * WRITTEN_WARNING_CNT )
 
         #Create an exact report of how depraved you are
-        report = "Demerits:" + str( demerit_cnt ) + "\n"
+        report = name + "'s Disciplinary Record:\n"
+        report = report + "Demerits:" + str( demerit_cnt ) + "\n"
         report = report + "Citations: " + str( citation_cnt ) + "\n"
         report = report + "Violations: " + str( violation_cnt ) + "\n"
         report = report + "Verbal Warnings: " + str( verb_warning_cnt ) + "\n"
