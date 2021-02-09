@@ -7,7 +7,7 @@ import time
 # local file imports
 import config
 import globals_file
-from commands import help, weather, single_giphy_results_display, harry_potter, define, giphy, ping, clean, Mark, lunch, set_lunch, emojify, friday, vote
+from commands import help, weather, single_giphy_results_display, harry_potter, define, giphy, ping, clean, Mark, lunch, set_lunch, emojify, friday, vote, magic_8ball
 from rules import reddit_link, pre_add_reaction, auto_triggered_messages, timecard_reminder, count_audit
 from client_interactions import send_message
 
@@ -126,5 +126,7 @@ async def on_message(message):
 
   elif(config.dictionary_api and message.content.lower().startswith(define.TRIGGER)):
     await define.command(client, message, dictionary_api)
+
+  #await magic_8ball.command
 
 client.run(discordApiKey)
